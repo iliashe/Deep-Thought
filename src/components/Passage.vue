@@ -8,6 +8,8 @@
     <!-- text area -->
     <div class='col-12'>
       <q-input
+        v-model='psg'
+        @change='updatePassage(psg)'
         filled
         type='textarea'
       />
@@ -17,8 +19,18 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'passage-component',
+  data() {
+    return {
+      psg: '',
+    }
+  },
+  methods: {
+    ...mapMutations(['updatePassage']),
+  }
 }
 </script>
 

@@ -1,7 +1,7 @@
 <template>
 <div class='container'>
   <div class='row'>
-    <!-- label -->
+    <!-- header -->
     <header class='col-12'>
       <div class='row'>
         <p class='col-3'>Enter your question(s)</p>
@@ -9,23 +9,49 @@
           round
           icon='img:white-plus.svg'
           color='light-blue-6'
+          @click.prevent='addQuestion()'
         />
       </div>
     </header>
     <!-- text area -->
-    <div class='col-12'>
-      <q-input
-        filled
-        type='textarea'
-      />
+    <div class='col-12' >
+      <ul class='question'>
+        <li v-for='(question, id) in questions' :key='question.q'>
+          <q-input
+            @change='updateQ({ q: getQ(id), id: id })'
+            :modelValue='question.q'
+            filled
+            type='textarea'
+          />
+          {{ question }} {{ id }}
+        </li>
+      </ul>
     </div>
   </div>
 </div>
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex';
+
 export default {
   name: 'question-component',
+  computed: {
+    ...mapState([
+      'questions'
+    ])
+  },
+  methods: {
+    getQ (id) {
+      const question = document.getElementsByClassName('question')[0];
+      const q = question.getElementsByTagName('textarea')[id]
+      return q.value;
+    },
+    ...mapMutations([
+      'addQuestion',
+      'updateQ',
+    ])
+  }
 }
 </script>
 
