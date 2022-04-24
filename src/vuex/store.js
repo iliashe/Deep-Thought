@@ -4,11 +4,7 @@ import Question from '../js/classes/question';
 
 export default createStore({
   state: {
-    questions: [
-      new Question({
-        q: '',
-      }),
-    ],
+    questions: [new Question()],
     passage: '',
   },
 

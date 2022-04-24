@@ -5,6 +5,6 @@ import App from './App.vue';
 import './styles/main.scss';
 import { Quasar } from 'quasar';
 import quasarUserOptions from './quasar-user-options';
-import store from './store/store'
+import store from './vuex/store'
 
 createApp(App).use(store).use(Quasar, quasarUserOptions).mount('#app');

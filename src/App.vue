@@ -1,15 +1,13 @@
 <template>
 <div class='container'>
   <!-- passage section -->
-  <div class='q-pa-xl'>
+  <div class='q-px-xl q-py-md'>
     <passage-component />
   </div>
   <!-- question-answer section-->
-  <div class='q-pa-xl'>
-    <questions :answers='query(questions, passage)'/>
+  <div class='q-px-xl q-py-md'>
+    <questions  />
   </div>
-
-  {{ query(questions, passage) }}
 </div>
 </template>
 
@@ -29,7 +27,6 @@ export default {
       'questions',
       'passage',
     ]),
-    // api
   },
   methods: {
     query,
