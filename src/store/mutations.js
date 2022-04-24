@@ -1,4 +1,4 @@
-import Question from '../js/question';
+import Question from '../js/classes/question';
 
 const addQuestion = function(state) {
   state.questions.push(

@@ -6,16 +6,17 @@
   </div>
   <!-- question-answer section-->
   <div class='q-pa-xl'>
-    <questions />
+    <questions :answers='query(questions, passage)'/>
   </div>
 
+  {{ query(questions, passage) }}
 </div>
 </template>
 
 <script>
 import passageComponent from './components/Passage.vue';
 import Questions from './components/Question.vue';
-import query from './js/query';
+import query from './js/api/query';
 import { mapState } from 'vuex';
 
 export default {

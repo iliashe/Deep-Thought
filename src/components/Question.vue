@@ -17,13 +17,16 @@
     <div class='col-12' >
       <ul class='question'>
         <li v-for='(question, id) in questions' :key='question.q'>
+          <!-- question -->
           <q-input
             @change='updateQ({ q: getQ(id), id: id })'
             :modelValue='question.q'
             filled
             type='textarea'
           />
-          {{ question }} {{ id }}
+          <!-- answer -->
+          <div>
+          </div>
         </li>
       </ul>
     </div>
@@ -40,6 +43,9 @@ export default {
     ...mapState([
       'questions'
     ])
+  },
+  props: {
+    answers: Object,
   },
   methods: {
     getQ (id) {
