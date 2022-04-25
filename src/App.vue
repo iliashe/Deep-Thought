@@ -1,8 +1,12 @@
 <template>
 <div class='container'>
+  <!-- examples section-->
+  <div class='q-px-xl q-py-md'>
+    <examples />
+  </div>
   <!-- passage section -->
   <div class='q-px-xl q-py-md'>
-    <passage-component />
+    <passage />
   </div>
   <!-- question-answer section-->
   <div class='q-px-xl q-py-md'>
@@ -12,14 +16,16 @@
 </template>
 
 <script>
-import passageComponent from './components/Passage.vue';
-import Questions from './components/Question.vue';
+import Examples from './components/Examples.vue';
+import Passage from './components/Passage.vue';
+import Questions from './components/Questions.vue';
 import query from './js/api/query';
 import { mapState } from 'vuex';
 
 export default {
   components: {
-    passageComponent,
+    Examples,
+    Passage,
     Questions,
   },
   computed: {

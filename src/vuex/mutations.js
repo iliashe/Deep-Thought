@@ -5,28 +5,52 @@ const addQuestion = function(state) {
   state.questions.push(new Question())
 };
 
+const clear = function(state) {
+  state.passage = '';
+  state.questions = [new Question()];
+}
+
 const removeQuestion = function(state, question) {
   state.questions = state.questions.filter(q => q !== question)
+};
+
+const runExample = function(state, example) {
+  state.questions = [];  
+  const ex = state.examples[example];
+  state.passage = ex.passage;
+  for(let i = 0; i < ex.questions.length; i += 1) {
+    state.questions[i] = new Question({
+      q: ex.questions[i],
+      answer: {
+        answer: '',
+        score: 0,
+        start: 0,
+        end: 0,
+      }
+    })
+  }
+  sendQuestions(state);
 };
 
 const sendQuestion = function(state, question) {
   if(state.passage.length > 0) {
     query(question.q, state.passage)
       .then(function(res) {
-        question.answer = res.data.answer;
+        question.answer = res.data;
       })
       .catch((error) => console.error(error))
   }
 };
 
 const sendQuestions = function(state) {
-  // questions without answer
-  const questions = state.questions.filter(q => q.answer === '')
+  // questions that were not answered yet
+  const questions = state.questions.filter(q => q.answer.answer === '')
   if(state.passage.length > 0) {
     for(const question of questions) {
+      console.log(question)
       query(question.q, state.passage)
         .then(function(res) {
-          question.answer = res.data.answer;
+          question.answer = res.data;
         })
         .catch((error) => console.error(error))
     } 
@@ -45,7 +69,9 @@ const updateQuestion = function(state, props) {
 
 export default {
   addQuestion,
+  clear,
   removeQuestion,
+  runExample,
   sendQuestion,
   sendQuestions,
   updatePassage,
