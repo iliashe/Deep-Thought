@@ -56,7 +56,7 @@
         >
           <!-- question row -->
           <div class='row'>
-            <!-- buttons -->
+            <!-- question buttons -->
             <div class='col-2' v-if='questions.length > 1'>
               <div>
                 <!-- `remove` button -->
@@ -99,14 +99,42 @@
                   />
                   <!-- answer -->
                   <div
+                    class='rounded-borders'
                     :class="{
                       'col-10': questions.length > 1,
                       'col-12': questions.length === 1
                     }"
+                    outlined
                     v-show='question.answer.answer.length > 0'
                   >
-                    <div>
-                      {{ question.answer.answer }}
+                    <div class='q-pa-sm'>
+                      <!-- answers header -->
+                      <div class='row justify-between'>
+                        <div> Answer: </div>
+                        <!-- buttons -->
+                        <div>
+                          <q-btn
+                            round
+                            size='sm'
+                            icon='img:highlight.svg'
+                            @click='highlightAnswer(question)'
+                          />
+                          <q-btn
+                            round
+                            size='sm'
+                            :icon="question.answer.isVisible ? 'img:hide.svg' : 'img:expand.svg'"
+                            @click='[
+                              question.answer.isVisible = !question.answer.isVisible
+                            ]'
+                          />
+                        </div>
+                      </div>
+                      <!-- answers body -->
+                      <div v-show='question.answer.isVisible'>
+                        <h6>
+                         {{ question.answer.answer }}
+                        </h6>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -138,6 +166,7 @@ export default {
     },
     ...mapMutations([
       'addQuestion',
+      'highlightAnswer',
       'sendQuestion',
       'sendQuestions',
       'updateQuestion',

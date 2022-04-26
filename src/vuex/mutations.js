@@ -8,6 +8,22 @@ const addQuestion = function(state) {
 const clear = function(state) {
   state.passage = '';
   state.questions = [new Question()];
+};
+
+// edit passage after query was sent
+const editPassage = function(state) {
+    state.queryIsSent = false;
+};
+
+const highlightAnswer = function(state, question = '') {
+  state.queryIsSent = true;
+  const answer = question.answer.answer;
+  const answer_marked = "<mark class='marked'>" + answer + "</mark>"
+  const psg = document.getElementsByClassName('passage')[0];
+  console.log(psg)
+  console.log(psg.innerHTML.replace(answer, answer_marked))
+  const psg_marked = psg.innerHTML.replace(answer, answer_marked)
+  return psg_marked
 }
 
 const removeQuestion = function(state, question) {
@@ -39,6 +55,7 @@ const sendQuestion = function(state, question) {
         question.answer = res.data;
       })
       .catch((error) => console.error(error))
+    state.queryIsSent = true; 
   }
 };
 
@@ -53,10 +70,12 @@ const sendQuestions = function(state) {
           question.answer = res.data;
         })
         .catch((error) => console.error(error))
-    } 
+    }
+    state.queryIsSent = true;
   }
 };
 
+// edit passage before sending a query
 const updatePassage = function(state, psg) {
   state.passage = psg;
   // if passage was updated after a question was entered ????
@@ -70,6 +89,8 @@ const updateQuestion = function(state, props) {
 export default {
   addQuestion,
   clear,
+  editPassage,
+  highlightAnswer,
   removeQuestion,
   runExample,
   sendQuestion,

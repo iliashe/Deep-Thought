@@ -10,7 +10,7 @@
           <q-btn outline label='Food' @click='runExample(0)'/>
           <q-btn outline label='Electronics' @click='runExample(1)'/>
           <q-btn outline label='Techn. Manual' @click='runExample(2)'/>
-          <q-btn outline label='Clear' icon='img:refresh.svg' @click='clear()'/>
+          <q-btn outline label='Clear' icon-right='img:refresh.svg' @click='clear()'/>
         </div>
       </div>
     </div>

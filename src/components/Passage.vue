@@ -4,17 +4,24 @@
     <div class='row'>
       <!-- label -->
       <header class='col-12'>
-        <p>Paste your Passage</p>
+        <div class='row'>
+          <p>Paste your Passage</p>
+          <q-btn outline label='Edit' icon-right='img:edit.svg' @click='editPassage()'/>
+        </div>
       </header>
       <!-- text area -->
       <div class='col-12'>
         <q-input
+          v-if='!queryIsSent'
           class='passage'
           @change='updatePassage(getPassage())'
           :modelValue='passage'
           filled
           type='textarea'
         />
+        <p class='passage' v-if='queryIsSent'>
+          {{ highlightAnswer() }}
+        </p>
       </div>
     </div>
   </div>
@@ -26,16 +33,18 @@ import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'passage-component',
-  data() {
-    return {
-      psg: '',
-    }
-  },
   computed: {
-    ...mapState(['passage'])
+    ...mapState([
+      'queryIsSent',
+      'passage'
+    ])
   },
   methods: {
-    ...mapMutations(['updatePassage']),
+    ...mapMutations([
+      'editPassage',
+      'highlightAnswer',
+      'updatePassage'
+    ]),
     getPassage() {
       const qInput = document.getElementsByClassName('passage')[0];
       const txtArea = qInput.getElementsByTagName('textarea')[0];
