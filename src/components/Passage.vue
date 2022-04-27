@@ -3,24 +3,35 @@
   <div class='q-pa-sm'>
     <div class='row'>
       <!-- label -->
-      <header class='col-12'>
-        <div class='row'>
-          <p>Paste your Passage</p>
-          <q-btn outline label='Edit' icon-right='img:edit.svg' @click='editPassage()'/>
+      <header class='col-12 q-pb-md'>
+        <div class='row items-baseline justify-between'>
+          <div class=''>
+            <span>Paste your Passage</span>
+          </div>
+          <q-btn
+            no-caps
+            outline
+            size='sm'
+            label='Edit'
+            icon-right='img:edit.svg'
+            @click='editPassage()'
+          />
         </div>
       </header>
       <!-- text area -->
       <div class='col-12'>
-        <q-input
-          v-if='!queryIsSent'
-          class='passage'
-          @change='updatePassage(getPassage())'
-          :modelValue='passage'
-          filled
-          type='textarea'
-        />
-        <p class='passage' v-if='queryIsSent'>
-          {{ highlightAnswer() }}
+        <vee-field name='text'>
+          <q-input
+            v-if='!queryIsSent'
+            class='passage'
+            @change='updatePassage(getPassage())'
+            :modelValue='passage'
+            filled
+            type='textarea'
+          />
+        </vee-field>
+        <p outline class='passage' v-if='queryIsSent'>
+          {{ passage }}
         </p>
       </div>
     </div>
@@ -36,7 +47,7 @@ export default {
   computed: {
     ...mapState([
       'queryIsSent',
-      'passage'
+      'passage',
     ])
   },
   methods: {

@@ -5,13 +5,15 @@
     <examples />
   </div>
   <!-- passage section -->
-  <div class='q-px-xl q-py-md'>
-    <passage />
-  </div>
-  <!-- question-answer section-->
-  <div class='q-px-xl q-py-md'>
-    <questions  />
-  </div>
+  <vee-form class='q-px-xl q-py-md'>
+    <div class=''>
+      <passage />
+    </div>
+    <!-- question-answer section-->
+    <div class=''>
+      <questions  />
+    </div>
+  </vee-form>
 </div>
 </template>
 

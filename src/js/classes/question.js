@@ -14,5 +14,6 @@ export default class Question {
     this.q = props.q;
     // answer to a question
     this.answer = props.answer
+    this.answer.isVisible = true
   }
 }

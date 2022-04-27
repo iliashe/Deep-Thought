@@ -2,11 +2,17 @@ body {
  color: #546EF8;
 }
 
-body, button, textarea {
-  color: #546EF8;
+/* quasars' textarea */
+.q-field__native::-webkit-scrollbar {
+  display: none;
+}
+
+p {
+  color:black;
 }
 
 ul {
   list-style: none;
   padding: 0px;
+  margin: 0px;
 }

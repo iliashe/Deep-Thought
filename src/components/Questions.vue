@@ -1,148 +1,80 @@
 <template>
 <div class='container'>
-  <div class='row'>
-    <!-- header -->
-    <header class='col-12'>
-      <div class='q-pa-sm'>
-        <div class='row'>
+  <div class='q-pa-sm'>
+    <div class='row'>
+      <!-- header -->
+      <header class='col-12 q-pb-md'>
+        <div class='row items-baseline justify-between'>
           <!-- label -->
-          <div class='col-3'>
-            <div class='column justify-center'>
-              <span style='display: block' class=''>Enter your question(s)</span>
-            </div>
+          <div class='col-auto'>
+            <span style='display: block' class=''>Enter your question(s)</span>
           </div>
           <!-- buttons -->
-          <div class='col-9'>
-            <div class='row'>
-              <!-- `add` button -->
-              <div class='col-1'>
-                <div class='column justify-center'>
-                  <div>
-                    <q-btn
-                      outline
-                      round
-                      size='sm'
-                      icon='img:add.svg'
-                      @click.prevent='addQuestion()'
-                    />
-                  </div>
-                </div>
+          <div class='row items-baseline'>
+            <!-- `add` button -->
+            <div class='col-auto q-pr-md'>
+              <div class=''>
+                <q-btn
+                  outline
+                  round
+                  size='sm'
+                  icon='img:add.svg'
+                  @click.prevent='addQuestion()'
+                />
               </div>
-              <!-- `run all` button -->
-              <div class='col-3'>
-                <div class='column justify-center'>
-                  <q-btn
-                    outline
-                    icon-right='img:run.svg'
-                    label='Run all'
-                    no-caps
-                    @click='sendQuestions()'
-                  />
-                </div>
-              </div>
+            </div>
+            <!-- `run all` button -->
+            <div class='col-auto q-pr-md'>
+              <q-btn
+                outline
+                size='sm'
+                icon-right='img:run.svg'
+                label='Run all'
+                no-caps
+                @click='sendQuestions()'
+              />
+            </div>
+            <!-- `remove all` button -->
+            <div class='col-auto'>
+              <q-btn
+                outline
+                size='sm'
+                icon-right='img:delete.svg'
+                label='Remove all'
+                no-caps
+                @click='clearQuestions()'
+              />
             </div>
           </div>
         </div>
-      </div>
-    </header>
-    <!-- questions -->
-    <div class='col-12' >
-      <ul class='question'>
-        <!-- question container -->
-        <li
-          class='q-pa-sm' 
-          v-for='(question, id) in questions'
-          :key='question.q'
-        >
-          <!-- question row -->
-          <div class='row'>
-            <!-- question buttons -->
-            <div class='col-2' v-if='questions.length > 1'>
-              <div>
-                <!-- `remove` button -->
-                <q-btn
-                  round
-                  size='sm'
-                  icon='img:delete.svg'
-                  @click='removeQuestion(question)'
-                />
-                <!-- `run` button -->
-                <q-btn
-                  round
-                  size='sm'
-                  icon='img:run.svg'
-                  @click='sendQuestion(question)'
-                />
-              </div>
-            </div>
-            <!-- question + answer -->
-            <div
-              :class="{
-                'col-10': questions.length > 1,
-                'col-12': questions.length === 1
-              }"
+      </header>
+      <!-- questions -->
+      <div class='col-12' >
+        <ul class='question'>
+          <!-- question container -->
+          <transition-group name='fade'>
+            <li
+              class='q-pb-md' 
+              v-for='(question, id) in questions'
+              :key='question'
             >
-              <div class='column'>
-                <div
-                  :class="{
-                    'col-10': questions.length > 1,
-                    'col-12': questions.length === 1
-                  }"
-                >
-                  <!-- question input -->
-                  <q-input
-                    @change='updateQuestion({ q: getQ(id), id: id })'
-                    :modelValue='question.q'
-                    filled
-                    autogrow
-                    :label='`Q` + (id + 1) + `:`'
-                  />
-                  <!-- answer -->
-                  <div
-                    class='rounded-borders'
-                    :class="{
-                      'col-10': questions.length > 1,
-                      'col-12': questions.length === 1
-                    }"
-                    outlined
-                    v-show='question.answer.answer.length > 0'
-                  >
-                    <div class='q-pa-sm'>
-                      <!-- answers header -->
-                      <div class='row justify-between'>
-                        <div> Answer: </div>
-                        <!-- buttons -->
-                        <div>
-                          <q-btn
-                            round
-                            size='sm'
-                            icon='img:highlight.svg'
-                            @click='highlightAnswer(question)'
-                          />
-                          <q-btn
-                            round
-                            size='sm'
-                            :icon="question.answer.isVisible ? 'img:hide.svg' : 'img:expand.svg'"
-                            @click='[
-                              question.answer.isVisible = !question.answer.isVisible
-                            ]'
-                          />
-                        </div>
-                      </div>
-                      <!-- answers body -->
-                      <div v-show='question.answer.isVisible'>
-                        <h6>
-                         {{ question.answer.answer }}
-                        </h6>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-      </ul>
+              <!-- question row -->
+              <Suspense>
+                <!-- main content -->
+                <question
+                  :question='question'
+                  :id='id'
+                  @answer-show-hide='question.answer.isVisible = !question.answer.isVisible'/>
+  
+                <!-- loading state -->
+                <template #fallback>
+                  loading...
+                </template>
+              </Suspense>
+            </li>
+          </transition-group>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
@@ -150,9 +82,13 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import Question from './Question.vue';
 
 export default {
-  name: 'question-component',
+  name: 'question-section',
+  components: {
+    Question,
+  },
   computed: {
     ...mapState([
       'questions'
@@ -166,11 +102,8 @@ export default {
     },
     ...mapMutations([
       'addQuestion',
-      'highlightAnswer',
-      'sendQuestion',
+      'clearQuestions',
       'sendQuestions',
-      'updateQuestion',
-      'removeQuestion',
     ]),
   }
 }
@@ -178,11 +111,25 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.icona {
-  width: 50px;
-  height: 50px;
+.fade-enter-from {
+  opacity: 0;
 }
-.icona:hover {
- fill: black;
+
+.fade-enter-active {
+  transition: all 0.25s linear;
+}
+
+.fade-leave-to {
+  transition: all 0.25s linear;
+  opacity: 0;  
+}
+
+.fade-leave-active {
+  position: absolute;
+}
+
+/* if we want to push questions smoothly to the beginning of the list */
+.fade-move {
+  transition: all 0.25s linear;
 }
 </style>
