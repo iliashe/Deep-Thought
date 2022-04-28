@@ -40,11 +40,11 @@
           class='scroll'
           @change='updateQuestion({ q: getQ(id), id: id })'
           :modelValue='question.q'
+          :rules="[val => !!val || 'Field is required']"
           :label='`Q` + (id + 1) + `:`'
         />
         <!-- answer -->
         <div
-          class='rounded-borders'
           :class="{
             'col-10': questions.length > 1,
             'col-12': questions.length === 1
@@ -75,9 +75,11 @@
             <!-- answers body -->
             <transition name='fade'>
               <div v-if='question.answer.isVisible'>
+                <div class='row items-baseline'>
                   <h6>
                    {{ question.answer.answer }}
                   </h6>
+                </div>
               </div>
             </transition>
           </div>

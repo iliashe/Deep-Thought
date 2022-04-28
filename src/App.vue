@@ -5,15 +5,13 @@
     <examples />
   </div>
   <!-- passage section -->
-  <vee-form class='q-px-xl q-py-md'>
-    <div class=''>
-      <passage />
-    </div>
-    <!-- question-answer section-->
-    <div class=''>
-      <questions  />
-    </div>
-  </vee-form>
+  <div class='q-px-xl q-py-md'>
+    <passage />
+  </div>
+  <!-- question-answer section-->
+  <div class='q-px-xl q-py-md'>
+    <questions  />
+  </div>
 </div>
 </template>
 
@@ -21,8 +19,7 @@
 import Examples from './components/Examples.vue';
 import Passage from './components/Passage.vue';
 import Questions from './components/Questions.vue';
-import query from './js/api/query';
-import { mapState } from 'vuex';
+import { mapMutations, mapState } from 'vuex';
 
 export default {
   components: {
@@ -37,8 +34,10 @@ export default {
     ]),
   },
   methods: {
-    query,
-  }
+    ...mapMutations([
+      'sendQuestions'
+    ])
+  },
 }
 </script>
 

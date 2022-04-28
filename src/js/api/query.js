@@ -10,17 +10,20 @@ const headers = {
 }
 
 export default function query(question, passage) {
-  console.log('query sent')
-  console.log(`question: ${question}, passage: ${passage}`)
-  return axios({
-    method: 'post',
-    url: api_url,
-    headers: headers,
-    data: {
-      'question': question,
-      'context': passage,
-    },
-  })
+//   console.log('query sent')
+//   console.log(`question: ${question}, passage: ${passage}`)
+//   console.log(question.length)
+  if(question.length > 0 && passage.length > 0) {
+    return axios({
+      method: 'post',
+      url: api_url,
+      headers: headers,
+      data: {
+        'question': question,
+        'context': passage,
+      },
+    })
+  }
 }
 
 

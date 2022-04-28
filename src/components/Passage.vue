@@ -20,16 +20,16 @@
       </header>
       <!-- text area -->
       <div class='col-12'>
-        <vee-field name='text'>
-          <q-input
-            v-if='!queryIsSent'
-            class='passage'
-            @change='updatePassage(getPassage())'
-            :modelValue='passage'
-            filled
-            type='textarea'
-          />
-        </vee-field>
+        <q-input
+          label='Passage'
+          v-if='!queryIsSent'
+          class='passage'
+          @change='updatePassage(getPassage())'
+          :modelValue='passage'
+          :rules="[val => !!val || 'Field is required']"
+          filled
+          type='textarea'
+        />
         <p outline class='passage' v-if='queryIsSent'>
           {{ passage }}
         </p>
@@ -65,6 +65,5 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

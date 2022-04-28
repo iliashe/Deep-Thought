@@ -7,6 +7,10 @@ body {
   display: none;
 }
 
+.q-field::-webkit-scrollbar {
+    display: none;
+  }
+
 p {
   color:black;
 }

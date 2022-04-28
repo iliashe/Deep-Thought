@@ -1,5 +1,4 @@
 import { createStore } from 'vuex';
-import getters from './getters';
 import mutations from './mutations';
 import Question from '../js/classes/question';
 
@@ -30,9 +29,9 @@ export default createStore({
           "How can I connect to the search server?"
         ]
       },
-    ]
+    ],
+    rawPassage: '',
   },
 
-  getters,
   mutations,
 })
