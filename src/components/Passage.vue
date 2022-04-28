@@ -59,7 +59,7 @@ export default {
     getPassage() {
       const qInput = document.getElementsByClassName('passage')[0];
       const txtArea = qInput.getElementsByTagName('textarea')[0];
-      return txtArea.value
+      return txtArea.value.split(' ').filter(s => s !== '').join(' ');
     },
   }
 }

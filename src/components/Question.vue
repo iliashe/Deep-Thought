@@ -41,7 +41,7 @@
           @change='updateQuestion({ q: getQ(id), id: id })'
           :modelValue='question.q'
           :rules="[val => !!val || 'Field is required']"
-          :label='`Q` + (id + 1) + `:`'
+          :label='`Q` + (questions.length - id ) + `:`'
         />
         <!-- answer -->
         <div
@@ -107,7 +107,7 @@ export default {
     getQ (id) {
       const question = document.getElementsByClassName('question')[0];
       const q = question.getElementsByTagName('textarea')[id]
-      return q.value;
+      return q.value.split(' ').filter(s => s !== '').join(' ');
     },
     showOrHideAnswer(){
       this.$emit('answer-show-hide')        

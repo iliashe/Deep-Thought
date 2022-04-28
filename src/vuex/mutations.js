@@ -3,7 +3,7 @@ import query from '../js/api/query';
 
 // '+' button
 const addQuestion = function(state) {
-  state.questions.push(new Question())
+  state.questions.splice(0, 0, new Question())
 };
 
 // top `clear` button
