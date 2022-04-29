@@ -10,8 +10,10 @@ const addQuestion = function(state) {
 const clearAll = function(state) {
   // s.t. `textarea` tag instead of `p` would be displayed (query doesn't get actually send)
   state.queryIsSent = false;
-  state.passage = '';
-  state.questions = [new Question()];
+  if(state.passage !== '' || state.questions > 1 || state.questions[0].q !== '') {
+    state.passage = '';
+    state.questions = [new Question()];
+  }
 };
 
 // `remove all` button
@@ -40,7 +42,7 @@ const highlightAnswer = function(state, question) {
     state.rawPassage = state.passage.replace(answer, answer_marked);
     const psg = document.getElementsByClassName('passage')[0];
     psg.innerHTML = state.rawPassage;
-  } else if (!state.rawPassage.includes(answer_marked)){
+  } else if (!state.rawPassage.includes(answer_marked)) {
     state.rawPassage = state.rawPassage.replace(answer, answer_marked)
     const psg = document.getElementsByClassName('passage')[0];
     psg.innerHTML = state.rawPassage;  
