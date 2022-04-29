@@ -93,7 +93,7 @@ const runExample = async function(state, example) {
 
 // play button
 const sendQuestion = function(state, question) {
-  if(state.passage.length > 0 && question.length > 0) {
+  if(state.passage.length > 0 && question.q.length > 0) {
     query(question.q, state.passage)
       .then(function(res) {
         question.answer = res.data;
@@ -134,6 +134,7 @@ const updatePassage = function(state, psg) {
 
 const updateQuestion = function(state, props) {
   const question = state.questions[props.id]
+  removeHighlight(state, question);
   question.q = props.q;
 };
 

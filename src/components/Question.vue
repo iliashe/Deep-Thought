@@ -1,28 +1,34 @@
 <template>
 <div class='row'>
   <!-- question buttons -->
-  <div class='col-2' v-if='questions.length > 1'>
-    <div>
+  <div class='col-xs-2 col-lg-1' v-if='questions.length > 1'>
+    <div class='row'>
       <!-- `remove` button -->
-      <q-btn
-        round
-        size='sm'
-        icon='img:delete.svg'
-        @click='removeQuestion(question)'
-      />
+      <div>
+        <q-btn
+          round
+          class=''
+          size='sm'
+          icon='img:delete.svg'
+          @click='removeQuestion(question)'
+        />
+      </div>
       <!-- `run` button -->
-      <q-btn
-        round
-        size='sm'
-        icon='img:run.svg'
-        @click='sendQuestion(question)'
-      />
+      <div class='q-pl-sm'>
+        <q-btn
+          round
+          class=''
+          size='sm'
+          icon='img:run.svg'
+          @click='sendQuestion(question)'
+        />
+      </div>
     </div>
   </div>
   <!-- question + answer -->
   <div
     :class="{
-      'col-10': questions.length > 1,
+      'col-10 col-lg-11': questions.length > 1,
       'col-12': questions.length === 1
     }"
   >
@@ -57,19 +63,24 @@
             <div class='row justify-between'>
               <div> Answer: </div>
               <!-- buttons -->
-              <div>
-                <q-btn
-                  round
-                  size='sm'
-                  icon='img:highlight.svg'
-                  @click='highlightAnswer(question)'
-                />
-                <q-btn
-                  round
-                  size='sm'
-                  :icon="question.answer.isVisible ? 'img:hide.svg' : 'img:expand.svg'"
-                  @click='showOrHideAnswer()'
-                />
+              <div class='row'>
+                <div class='q-pr-sm'>
+                  <q-btn
+                    round
+                    size='sm'
+                    icon='img:highlight.svg'
+                    @click='highlightAnswer(question)'
+                  />
+                </div>
+                <div>
+                  <q-btn
+                    round
+                    class=''
+                    size='sm'
+                    :icon="question.answer.isVisible ? 'img:hide.svg' : 'img:expand.svg'"
+                    @click='showOrHideAnswer()'
+                  />
+                </div>
               </div>
             </div>
             <!-- answers body -->

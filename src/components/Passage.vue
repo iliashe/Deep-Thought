@@ -8,14 +8,17 @@
           <div class=''>
             <span>Paste your Passage</span>
           </div>
-          <q-btn
-            no-caps
-            outline
-            size='sm'
-            label='Edit'
-            icon-right='img:edit.svg'
-            @click='editPassage()'
-          />
+          <div class='row col-12 col-xs-4 col-sm-3 col-md-2 col-lg-1'>
+            <q-btn
+              no-caps
+              outline
+              class='col-12'
+              size='sm'
+              label='Edit'
+              icon-right='img:edit.svg'
+              @click='editPassage()'
+            />
+          </div>
         </div>
       </header>
       <!-- text area -->

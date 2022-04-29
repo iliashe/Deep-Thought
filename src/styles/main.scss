@@ -13,24 +13,24 @@ $lg-breakpoint: 1920px;
 
 @media (min-width: $xs-breakpoint) {
   .container {
-    max-width: 540px;
+    max-width: 640px;
   }
 }
 
 @media (min-width: $sm-breakpoint) {
   .container {
-    max-width: 920px;
+    max-width: 1020px;
   }
 }
 
 @media (min-width: $md-breakpoint) {
   .container {
-    max-width: 1140px;
+    max-width: 1240px;
   }
 }
 
 @media (min-width: $lg-breakpoint) {
   .container {
-    max-width: 1440px;
+    max-width: 1540px;
   }
 }

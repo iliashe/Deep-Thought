@@ -7,10 +7,10 @@
       <!-- buttons -->
       <div class='col-12'>
         <div class='row'>
-          <q-btn outline label='Food' @click='runExample(0)'/>
-          <q-btn outline label='Electronics' @click='runExample(1)'/>
-          <q-btn outline label='Techn. Manual' @click='runExample(2)'/>
-          <q-btn outline label='Clear' icon-right='img:refresh.svg' @click='clearAll()'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Food' @click='runExample(0)'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Electronics' @click='runExample(1)'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Techn. Manual' @click='runExample(2)'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Clear' icon-right='img:refresh.svg' @click='clearAll()'/>
         </div>
       </div>
     </div>
