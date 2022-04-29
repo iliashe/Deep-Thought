@@ -52,7 +52,6 @@ const highlightAnswer = function(state, question) {
 const removeHighlight = function(state, question) {
   const answer = question.answer.answer
   const answer_marked = "<mark class='marked'>" + answer + "</mark>";
-  console.log(question, answer, answer_marked, state.rawPassage.includes(answer_marked))
   if (state.rawPassage.includes(answer_marked)) {
     state.rawPassage = state.rawPassage.replace(answer_marked, answer);
     const psg = document.getElementsByClassName('passage')[0];
@@ -129,7 +128,6 @@ const sendQuestions = function(state) {
 const updatePassage = function(state, psg) {
   state.passage = psg;
   state.rawPassage = psg;
-  // if passage was updated after a question was entered ????
 };
 
 const updateQuestion = function(state, props) {

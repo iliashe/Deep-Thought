@@ -69,8 +69,8 @@
                 <question
                   :question='question'
                   :id='id'
-                  @answer-show-hide='question.answer.isVisible = !question.answer.isVisible'/>
-  
+                  @answer-show-hide='question.answer.isVisible = !question.answer.isVisible'
+                />
                 <!-- loading state -->
                 <template #fallback>
                   loading...
