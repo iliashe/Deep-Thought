@@ -93,13 +93,15 @@ const runExample = async function(state, example) {
 // play button
 const sendQuestion = function(state, question) {
   if(state.passage.length > 0 && question.q.length > 0) {
-    query(question.q, state.passage)
-      .then(function(res) {
-        question.answer = res.data;
-        question.answer.isVisible = true;
-      })
-      .catch((error) => console.error(error))
-    state.queryIsSent = true; 
+    if(question.answer.answer === ''){
+      query(question.q, state.passage)
+        .then(function(res) {
+          question.answer = res.data;
+          question.answer.isVisible = true;
+        })
+        .catch((error) => console.error(error))
+      state.queryIsSent = true;
+    } 
   } else {
     alert('Question field must not be empty!')
   }
@@ -107,7 +109,7 @@ const sendQuestion = function(state, question) {
 
 // run all button
 const sendQuestions = function(state) {
-  const questions = state.questions
+  const questions = state.questions.filter(q => q.answer.answer === '');
   if(state.passage.length > 0 &&
     state.questions.filter((q) => q.q !== '').length === state.questions.length) {
       for(const question of questions) {
@@ -134,6 +136,7 @@ const updateQuestion = function(state, props) {
   const question = state.questions[props.id]
   removeHighlight(state, question);
   question.q = props.q;
+  question.answer.answer = '';
 };
 
 export default {
