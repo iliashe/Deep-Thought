@@ -40,13 +40,13 @@ const highlightAnswer = function(state, question) {
   const answer_marked = "<mark class='marked'>" + answer + "</mark>"
   if (state.rawPassage === '') {
     state.rawPassage = state.passage.replace(answer, answer_marked);
-    const psg = document.getElementsByClassName('passage')[0];
+    const psg = document.getElementsByClassName('raw-passage')[0];
     psg.innerHTML = state.rawPassage;
   } else if (!state.rawPassage.includes(answer_marked)) {
     state.rawPassage = state.rawPassage.replace(answer, answer_marked)
-    const psg = document.getElementsByClassName('passage')[0];
+    const psg = document.getElementsByClassName('raw-passage')[0];
     psg.innerHTML = state.rawPassage;  
-  } else { // button was pressed twice, which means a mark needs to be removed
+  } else if (state.rawPassage.includes(answer_marked)) { // button was pressed twice, which means a mark needs to be removed
     removeHighlight(state, question);
   }
 };
@@ -56,7 +56,7 @@ const removeHighlight = function(state, question) {
   const answer_marked = "<mark class='marked'>" + answer + "</mark>";
   if (state.rawPassage.includes(answer_marked)) {
     state.rawPassage = state.rawPassage.replace(answer_marked, answer);
-    const psg = document.getElementsByClassName('passage')[0];
+    const psg = document.getElementsByClassName('raw-passage')[0];
     psg.innerHTML = state.rawPassage;
   }
 };
@@ -74,7 +74,7 @@ const runExample = async function(state, example) {
   const ex = state.examples[example];
   state.questions = [];
   state.passage = ex.passage;
-  state.rawPassage = '';
+  state.rawPassage = ex.passage;
   state.queryIsSent = true;
   for(let i = 0; i < ex.questions.length; i += 1) {
     let answer = {}
@@ -105,7 +105,8 @@ const sendQuestion = function(state, question) {
       state.queryIsSent = true;
     } 
   } else {
-    alert('Question field must not be empty!')
+//    alert('Question field must not be empty!')
+    return null
   }
 };
 
@@ -124,14 +125,17 @@ const sendQuestions = function(state) {
       }
       state.queryIsSent = true;
   } else {
-    alert('All fields must be filled')
+//    alert('All fields must be filled')
+    return null
   }
 };
 
 // edit passage before sending a query
 const updatePassage = function(state, psg) {
-  state.passage = psg;
-  state.rawPassage = psg;
+  // taking rid of unnecessary spaces
+  const newPassage = psg.split(' ').filter(s => s !== '').join(' ');
+  state.passage = newPassage;
+  state.rawPassage = newPassage;
 };
 
 const updateQuestion = function(state, props) {

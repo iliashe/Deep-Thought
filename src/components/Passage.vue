@@ -23,19 +23,7 @@
       </header>
       <!-- text area -->
       <div class='col-12'>
-        <q-input
-          label='Passage'
-          v-if='!queryIsSent'
-          class='passage'
-          @change='updatePassage(getPassage())'
-          :modelValue='passage'
-          :rules="[val => !!val || 'Field is required']"
-          filled
-          type='textarea'
-        />
-        <p outline class='passage' v-if='queryIsSent'>
-          {{ passage }}
-        </p>
+        <Component :is="queryIsSent ? 'PlainText' : 'QuasarTextArea'" />
       </div>
     </div>
   </div>
@@ -44,13 +32,25 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
+import QuasarTextArea from './QuasarTextArea.vue';
+import PlainText from './PlainText.vue';
 
 export default {
   name: 'passage-component',
+  data() {
+    return {
+      componentName: this.queryIsSent ? 'PlainText' : 'QuasarTextArea',
+      passage: '',
+    }
+  },
+  components: {
+    QuasarTextArea,
+    PlainText,
+  },
   computed: {
     ...mapState([
       'queryIsSent',
-      'passage',
+//      'passage',
     ])
   },
   methods: {

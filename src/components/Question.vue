@@ -7,20 +7,19 @@
       <div>
         <q-btn
           round
-          class=''
           size='sm'
           icon='img:delete.svg'
-          @click='removeQuestion(question)'
+          @click.prevent='removeQuestion(question)'
         />
       </div>
       <!-- `run` button -->
       <div class='q-pl-sm'>
         <q-btn
           round
-          class=''
           size='sm'
           icon='img:run.svg'
           @click='sendQuestion(question)'
+          type='submit'
         />
       </div>
     </div>
@@ -33,29 +32,21 @@
     }"
   >
     <div class='column'>
-      <div
-        :class="{
-          'col-10': questions.length > 1,
-          'col-12': questions.length === 1
-        }"
-      >
+      <div class='col-12'>
         <!-- question input -->
         <q-input
+          ref='QRef'
+          v-model.trim='qtn'
+          @change='updateQuestion({ q: qtn, id: id })'
+          lazy-rules
+          :rules="[val => !!val || 'Please, enter a question']"
+          :label='`Q` + (questions.length - id ) + `:`'
           filled
           autogrow
-          class='scroll'
-          @change='updateQuestion({ q: getQ(id), id: id })'
-          :modelValue='question.q'
-          :rules="[val => !!val || 'Field is required']"
-          :label='`Q` + (questions.length - id ) + `:`'
         />
         <!-- answer -->
         <div
-          :class="{
-            'col-10': questions.length > 1,
-            'col-12': questions.length === 1
-          }"
-          outlined
+          class='col-12'
           v-show='question.answer.answer.length > 0'
         >
           <div class='q-pa-sm'>
@@ -65,34 +56,36 @@
               <!-- buttons -->
               <div class='row'>
                 <div class='q-pr-sm'>
+                  <!-- `highlight` button -->
                   <q-btn
                     round
                     size='sm'
                     icon='img:highlight.svg'
-                    @click='highlightAnswer(question)'
+                    @click.prevent='highlightAnswer(question)'
                   />
                 </div>
                 <div>
+                  <!-- `show or hide answer` button -->
                   <q-btn
                     round
                     class=''
                     size='sm'
-                    :icon="question.answer.isVisible ? 'img:hide.svg' : 'img:expand.svg'"
-                    @click='showOrHideAnswer()'
+                    :icon="question.answer.isVisible ? 'img:hide.svg' : 'img:show.svg'"
+                    @click.prevent='toggleAnswer()'
                   />
                 </div>
               </div>
             </div>
             <!-- answers body -->
-            <transition name='fade'>
-              <div v-if='question.answer.isVisible'>
+            <div v-if='question.answer.isVisible'>
+              <transition name='fade'>
                 <div class='row items-baseline'>
                   <h6>
                    {{ question.answer.answer }}
                   </h6>
                 </div>
-              </div>
-            </transition>
+              </transition>
+            </div>
           </div>
         </div>
       </div>
@@ -106,6 +99,11 @@ import { mapMutations, mapState } from 'vuex';
 
 export default {
   name: 'question-component',
+  data() {
+    return {
+      qtn: this.question.q,
+    };
+  },
   props: {
     question: Object,
     id: Number,
@@ -115,12 +113,7 @@ export default {
   },
   emits: ['answer-show-hide'],
   methods: {
-    getQ (id) {
-      const question = document.getElementsByClassName('question')[0];
-      const q = question.getElementsByTagName('textarea')[id]
-      return q.value.split(' ').filter(s => s !== '').join(' ');
-    },
-    showOrHideAnswer(){
+    toggleAnswer() {
       this.$emit('answer-show-hide')        
     },
     ...mapMutations([

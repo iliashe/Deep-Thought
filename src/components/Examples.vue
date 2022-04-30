@@ -7,10 +7,10 @@
       <!-- buttons -->
       <div class='col-12'>
         <div class='row'>
-          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Food' @click='runExample(0)'/>
-          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Electronics' @click='runExample(1)'/>
-          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Techn. Manual' @click='runExample(2)'/>
-          <q-btn outline class='col-12 col-md-3 col-lg-2 delete-btn' label='Clear' icon-right='img:refresh.svg' @click='clearAll()'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Food' @click.prevent='[showLoading(), runExample(0)]'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Electronics' @click.prevent='runExample(1)'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2' label='Techn. Manual' @click.prevent='runExample(2)'/>
+          <q-btn outline class='col-12 col-md-3 col-lg-2 delete-btn' label='Clear' icon-right='img:refresh.svg' @click.prevent='clearAll()'/>
         </div>
       </div>
     </div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { Loading } from 'quasar';
 import { mapMutations} from 'vuex';
 
 export default {
@@ -27,7 +28,12 @@ export default {
     ...mapMutations([
       'clearAll',
       'runExample'
-    ])
+    ]),
+    showLoading() {
+      Loading.show()
+      setTimeout(() => Loading.hide(), 2000)
+    }
+
   }
 }
 </script>

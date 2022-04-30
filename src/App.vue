@@ -1,17 +1,19 @@
 <template>
 <div class='container'>
-  <!-- examples section-->
-  <div class='q-px-xl q-py-md'>
-    <examples />
-  </div>
-  <!-- passage section -->
-  <div class='q-px-xl q-py-md'>
-    <passage />
-  </div>
-  <!-- question-answer section-->
-  <div class='q-px-xl q-py-md'>
-    <questions  />
-  </div>
+  <q-form @submit='onSubmit'>
+    <!-- examples section-->
+    <div class='q-px-xl q-py-md'>
+      <examples />
+    </div>
+    <!-- passage section -->
+    <div class='q-px-xl q-py-md'>
+      <passage />
+    </div>
+    <!-- question-answer section-->
+    <div class='q-px-xl q-py-md'>
+      <questions  />
+    </div>
+  </q-form>
 </div>
 </template>
 
@@ -36,7 +38,10 @@ export default {
   methods: {
     ...mapMutations([
       'sendQuestions'
-    ])
+    ]),
+    onSubmit() {
+      console.log('form submitted')
+    },
   },
 }
 </script>

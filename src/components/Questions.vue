@@ -32,7 +32,7 @@
                   class='delete-btn col-12'
                   size='sm'
                   icon-right='img:delete.svg'
-                  label='Remove all'
+                  :label="questions.length > 1 ? 'Remove all' : 'Clear'"
                   no-caps
                   @click='clearQuestions()'
                 />
@@ -44,9 +44,10 @@
                   size='sm'
                   class='col-12'
                   icon-right='img:run.svg'
-                  label='Run all'
+                  :label="questions.length > 1 ? 'Get answers' : 'Get answer'"
                   no-caps
                   @click='sendQuestions()'
+                  type='submit'
                 />
               </div>
             </div>
@@ -100,11 +101,6 @@ export default {
     ])
   },
   methods: {
-    getQ (id) {
-      const question = document.getElementsByClassName('question')[0];
-      const q = question.getElementsByTagName('textarea')[id]
-      return q.value;
-    },
     ...mapMutations([
       'addQuestion',
       'clearQuestions',
