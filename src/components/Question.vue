@@ -80,9 +80,19 @@
             <div v-if='question.answer.isVisible'>
               <transition name='fade'>
                 <div class='row items-baseline'>
-                  <h6>
+                  <h6 class='col-3'>
                    {{ question.answer.answer }}
                   </h6>
+                  <div class='col-xs-12 col-md-7' v-show='question.answer.isRelevant === false'>
+                    <div class='column'>
+                      <h6 class='warning'>
+                        Unfortunately, the answer is no longer relevant :(
+                      </h6>
+                      <p class='hint'>
+                        Please, update or run the question again!
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </transition>
             </div>

@@ -10,10 +10,11 @@ const defaultVal = {
 
 export default class Question {
   constructor(props = defaultVal) {
-    // question text
     this.q = props.q;
-    // answer to a question
-    this.answer = props.answer
-    this.answer.isVisible = true
+
+    this.answer = props.answer;
+    this.answer.isVisible = true;
+    this.answer.isMarked = false;
+    this.answer.isRelevant = true;
   }
 }

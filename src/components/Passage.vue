@@ -21,9 +21,9 @@
           </div>
         </div>
       </header>
-      <!-- text area -->
+      <!-- passage -->
       <div class='col-12'>
-        <Component :is="queryIsSent ? 'PlainText' : 'QuasarTextArea'" />
+        <Component :is="queryIsSent ? 'PlainText' : 'QuasarTextArea'" :questions='questions' />
       </div>
     </div>
   </div>
@@ -39,7 +39,6 @@ export default {
   name: 'passage-component',
   data() {
     return {
-      componentName: this.queryIsSent ? 'PlainText' : 'QuasarTextArea',
       passage: '',
     }
   },
@@ -50,20 +49,14 @@ export default {
   computed: {
     ...mapState([
       'queryIsSent',
-//      'passage',
+      'questions',
     ])
   },
   methods: {
     ...mapMutations([
       'editPassage',
-      'highlightAnswer',
       'updatePassage'
     ]),
-    getPassage() {
-      const qInput = document.getElementsByClassName('passage')[0];
-      const txtArea = qInput.getElementsByTagName('textarea')[0];
-      return txtArea.value.split(' ').filter(s => s !== '').join(' ');
-    },
   }
 }
 </script>

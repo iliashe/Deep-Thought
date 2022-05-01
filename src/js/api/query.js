@@ -2,7 +2,7 @@
 const axios = require('axios')
 
 const model_id = 'deepset/roberta-base-squad2';
-const api_token = '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';
+const api_token = '';
 const api_url = `https://api-inference.huggingface.co/models/${model_id}`
 const headers = {
     'Authorization': `Bearer ${api_token}`,

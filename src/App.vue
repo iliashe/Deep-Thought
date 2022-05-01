@@ -22,6 +22,7 @@ import Examples from './components/Examples.vue';
 import Passage from './components/Passage.vue';
 import Questions from './components/Questions.vue';
 import { mapMutations, mapState } from 'vuex';
+import { Notify } from 'quasar';
 
 export default {
   components: {
@@ -40,7 +41,12 @@ export default {
       'sendQuestions'
     ]),
     onSubmit() {
-      console.log('form submitted')
+      console.log('form sent')
+      Notify.create({
+        type: 'positive',
+        timeout: 4000,
+        message: 'Form submitted!'
+      })
     },
   },
 }
