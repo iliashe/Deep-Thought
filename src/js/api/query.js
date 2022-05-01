@@ -20,5 +20,7 @@ export default function query(question, passage) {
         'context': passage,
       },
     })
+  } else {
+    return null;
   }
 }

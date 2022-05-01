@@ -2,6 +2,7 @@
   <q-input
     v-model.trim='psg'
     @change='updatePassage(psg)'
+    lazy-rules
     :rules="[val => !!val || 'Field is required']"
     type='textarea'
     filled

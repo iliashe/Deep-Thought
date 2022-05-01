@@ -13,8 +13,8 @@ export default class Question {
     this.q = props.q;
 
     this.answer = props.answer;
-    this.answer.isVisible = true;
+    this.answer.isVisible = false;
     this.answer.isMarked = false;
-    this.answer.isRelevant = true;
+    this.answer.isRelevant = false;
   }
 }

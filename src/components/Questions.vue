@@ -45,8 +45,8 @@
                   class='col-12'
                   icon-right='img:run.svg'
                   :label="questions.length > 1 ? 'Get answers' : 'Get answer'"
+                  @click='sendAllQuestions()'
                   no-caps
-                  @click='sendQuestions()'
                   type='submit'
                 />
               </div>
@@ -71,6 +71,7 @@
                   :question='question'
                   :id='id'
                   @answer-show-hide='question.answer.isVisible = !question.answer.isVisible'
+                  @send-alone='sendOneQuestion'
                 />
                 <!-- loading state -->
                 <template #fallback>
@@ -100,12 +101,20 @@ export default {
       'questions'
     ])
   },
+  emits: ['one-question', 'all-questions'],
   methods: {
     ...mapMutations([
       'addQuestion',
       'clearQuestions',
       'sendQuestions',
     ]),
+    sendOneQuestion(question) {
+      this.$emit('one-question', question)
+    },
+    sendAllQuestions() {
+      console.log('send all questions')
+      this.$emit('all-questions')
+    }
   }
 }
 </script>

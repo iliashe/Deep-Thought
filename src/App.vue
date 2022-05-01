@@ -1,6 +1,6 @@
 <template>
 <div class='container'>
-  <q-form @submit='onSubmit'>
+  <q-form @submit.prevent='allQuestions ? sendQuestions() : sendQuestion(questionToSend)'>
     <!-- examples section-->
     <div class='q-px-xl q-py-md'>
       <examples />
@@ -11,7 +11,7 @@
     </div>
     <!-- question-answer section-->
     <div class='q-px-xl q-py-md'>
-      <questions  />
+      <questions @one-question='sendOneQuestion' @all-questions='sendAllQuestions'/>
     </div>
   </q-form>
 </div>
@@ -22,9 +22,14 @@ import Examples from './components/Examples.vue';
 import Passage from './components/Passage.vue';
 import Questions from './components/Questions.vue';
 import { mapMutations, mapState } from 'vuex';
-import { Notify } from 'quasar';
 
 export default {
+  data() {
+    return {
+      allQuestions: true,
+      questionToSend: {},
+    };
+  },
   components: {
     Examples,
     Passage,
@@ -38,16 +43,17 @@ export default {
   },
   methods: {
     ...mapMutations([
+      'sendQuestion',
       'sendQuestions'
     ]),
-    onSubmit() {
-      console.log('form sent')
-      Notify.create({
-        type: 'positive',
-        timeout: 4000,
-        message: 'Form submitted!'
-      })
+    sendOneQuestion(question) {
+      this.allQuestions = false;
+      this.questionToSend = question;
     },
+    sendAllQuestions() {
+      console.log('im in app')
+      this.allQuestions = true;
+    }
   },
 }
 </script>

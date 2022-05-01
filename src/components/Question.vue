@@ -18,7 +18,7 @@
           round
           size='sm'
           icon='img:run.svg'
-          @click='sendQuestion(question)'
+          @click='sendOneQuestion(question)'
           type='submit'
         />
       </div>
@@ -35,7 +35,6 @@
       <div class='col-12'>
         <!-- question input -->
         <q-input
-          ref='QRef'
           v-model.trim='qtn'
           @change='updateQuestion({ q: qtn, id: id })'
           lazy-rules
@@ -121,15 +120,17 @@ export default {
   computed: {
     ...mapState(['questions'])
   },
-  emits: ['answer-show-hide'],
+  emits: ['answer-show-hide', 'send-alone'],
   methods: {
     toggleAnswer() {
       this.$emit('answer-show-hide')        
     },
+    sendOneQuestion(question) {
+      this.$emit('send-alone', question)
+    },
     ...mapMutations([
       'highlightAnswer',
       'removeQuestion',
-      'sendQuestion',
       'updateQuestion',
     ])
   }

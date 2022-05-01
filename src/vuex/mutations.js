@@ -1,5 +1,6 @@
 import Question from '../js/classes/question';
 import query from '../js/api/query';
+import { Loading, Notify } from 'quasar';
 
 // '+' button
 const addQuestion = function(state) {
@@ -14,6 +15,7 @@ const clearAll = function(state) {
   if(state.passage !== '' || state.questions > 1 || state.questions[0].q !== '') {
     state.passage = '';
     state.questions = [new Question()];
+    state.examples.map(ex => ex.questions.map(ans => ans.answer.answer = ''));
   }
 };
 
@@ -21,6 +23,7 @@ const clearAll = function(state) {
 const clearQuestions = function(state) {
   if(state.questions.length > 1 || state.questions[0].q.length > 0) {
     state.questions = [new Question()];
+    state.examples.map(ex => ex.questions.map(ans => ans.answer.answer = ''));
   }
 };
 
@@ -28,6 +31,33 @@ const clearQuestions = function(state) {
 const editPassage = function(state) {
   // toggle from `p` tag to `textarea`
   state.queryIsSent = false;
+};
+
+const handleError = function(err) {
+  setTimeout(() => Loading.hide(), 2000)
+  setTimeout(() => Notify.create({
+    group: false,
+    timeout: 2000,
+    color: 'negative',
+    message: `Question answering failed! Error: ${err.message}`
+  }), 1000)
+
+}
+
+const handleResponse = function(res, question) {
+    setTimeout(() => Loading.hide(), 1000)
+    setTimeout(()=> Notify.create({
+      group: false,
+      type: 'positive',
+      timeout: 10,
+      message: 'Question is answered successfully'
+    }), 1000);
+    setTimeout(
+      function() {
+        question.answer = res.data;
+        question.answer.isVisible = true;
+        question.answer.isRelevant = true;
+      }, 1000)
 };
 
 // `flashlight` button
@@ -57,7 +87,8 @@ const removeQuestion = function(state, question) {
 const runExample = function(state, ex) {
   // removing all questions that existed before
   state.questions = [];
-
+  // removing the answers to the examples
+  state.examples.map(ex => ex.questions.map(ans => ans.answer.answer = ''));
   const example = state.examples[ex];
   state.passage = example.passage;
 
@@ -65,63 +96,29 @@ const runExample = function(state, ex) {
   for(let i = 0; i < example.questions.length; i += 1) {
     state.questions[i] = example.questions[i]
     sendQuestion(state, state.questions[i])
-    // let answer = {}
-    // await query(ex.questions[i], ex.passage)
-    //   .then(function(res) {
-    //     answer.answer = res.data.answer;
-    //     answer.score = res.data.score;
-    //     answer.start = res.data.start;
-    //     answer.end = res.data.end;
-    //     state.questions[i] = new Question({
-    //         q: ex.questions[i],
-    //         answer: answer,
-    //     })
-    //   }).catch((error) => console.error(error));
   }
 };
 
 // play button
 const sendQuestion = async function(state, question) {
-  if(state.passage.length > 0 && question.q.length > 0) {
-    if(question.answer.answer === '' || !question.answer.isRelevant){
-      await query(question.q, state.passage)
-        .then(function(res) {
-          question.answer = res.data;
-          question.answer.isVisible = true;
-          question.answer.isRelevant = true;
-        //   state.questions.push(
-        //     new Question({
-        //       q: question.q,
-        //       answer: question.answer,
-        //     })
-        //   )
-        })
-        .catch((error) => console.error(error))
-      state.queryIsSent = true;
-    } 
-  } else {
-    return null
-  }
+  if(question.answer.answer === '' || !question.answer.isRelevant){
+    Loading.show()
+    await query(question.q, state.passage)
+      .then((res) => handleResponse(res, question))
+      .catch((err) => handleError(err))
+    state.queryIsSent = true;
+  } 
 };
 
-// run all button
+// `get answer` button
 const sendQuestions = function(state) {
+  // questions that were not answered yet
   const questions = state.questions.filter(q => q.answer.answer === '');
-  if(state.passage.length > 0 &&
-    state.questions.filter((q) => q.q !== '').length === state.questions.length) {
-      for(const question of questions) {
-        query(question.q, state.passage)
-          .then(function(res) {
-            question.answer = res.data;
-            question.answer.isVisible = true;
-          })
-          .catch((error) => console.error(error))
-      }
-      state.queryIsSent = true;
-  } else {
-//    alert('All fields must be filled')
-    return null
+  console.log(questions)
+  for(const question of questions) {
+    sendQuestion(state, question)
   }
+  //state.queryIsSent = true;
 };
 
 // edit passage before sending a query
