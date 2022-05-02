@@ -113,8 +113,8 @@ const sendQuestion = async function(state, question) {
 // `get answer` button
 const sendQuestions = function(state) {
   // questions that were not answered yet
-  const questions = state.questions.filter(q => q.answer.answer === '');
-  console.log(questions)
+  // const questions = state.questions.filter(q => q.answer.answer === '');
+  const questions = state.questions
   for(const question of questions) {
     sendQuestion(state, question)
   }
@@ -126,6 +126,7 @@ const updatePassage = function(state, psg) {
   // taking rid of unnecessary spaces
   const newPassage = psg.split(' ').filter(s => s !== '').join(' ');
   state.passage = newPassage;
+  state.questions.map(q => state.passage.includes(q.answer.answer) ?  q.answer.isRelevant : q.answer.isRelevant = false)
 };
 
 const updateQuestion = function(state, props) {
