@@ -70,12 +70,6 @@ const highlightAnswer = function(state, question) {
   } else {
     answer.isMarked = true;
   }
-//   // if we updated a passage, we want to make sure that the answer is still relevant
-//   if(!state.passage.includes(answer.answer)) {
-//     answer.isRelevant = false;
-//   } else {
-//     answer.isRelevant = true;
-//   }
 };
 
 // `trash can` button

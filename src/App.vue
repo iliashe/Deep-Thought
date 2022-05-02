@@ -51,7 +51,6 @@ export default {
       this.questionToSend = question;
     },
     sendAllQuestions() {
-      console.log('im in app')
       this.allQuestions = true;
     }
   },

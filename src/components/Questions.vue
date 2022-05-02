@@ -112,7 +112,6 @@ export default {
       this.$emit('one-question', question)
     },
     sendAllQuestions() {
-      console.log('send all questions')
       this.$emit('all-questions')
     }
   }
