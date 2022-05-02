@@ -121,7 +121,7 @@ const updatePassage = function(state, psg) {
   const newPassage = psg.split(' ').filter(s => s !== '').join(' ');
   state.passage = newPassage;
   // check if answer is still relevant after updating passage
-  state.questions.map(q => state.passage.includes(q.answer.answer) ?  q.answer.isRelevant : q.answer.isRelevant = false)
+  state.questions.map(q => state.passage.includes(q.answer.answer) ?  q.answer.isRelevant = true : q.answer.isRelevant = false)
   // reupdating marks
   state.questions.map(q => q.answer.isMarked = false)
 };
