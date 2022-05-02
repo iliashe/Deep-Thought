@@ -70,12 +70,12 @@ const highlightAnswer = function(state, question) {
   } else {
     answer.isMarked = true;
   }
-  // if we updated a passage, we want to make sure that the answer is still relevant
-  if(!state.passage.includes(answer.answer)) {
-    answer.isRelevant = false;
-  } else {
-    answer.isRelevant = true;
-  }
+//   // if we updated a passage, we want to make sure that the answer is still relevant
+//   if(!state.passage.includes(answer.answer)) {
+//     answer.isRelevant = false;
+//   } else {
+//     answer.isRelevant = true;
+//   }
 };
 
 // `trash can` button
@@ -126,7 +126,10 @@ const updatePassage = function(state, psg) {
   // taking rid of unnecessary spaces
   const newPassage = psg.split(' ').filter(s => s !== '').join(' ');
   state.passage = newPassage;
+  // check if answer is still relevant after updating passage
   state.questions.map(q => state.passage.includes(q.answer.answer) ?  q.answer.isRelevant : q.answer.isRelevant = false)
+  // reupdating marks
+  state.questions.map(q => q.answer.isMarked = false)
 };
 
 const updateQuestion = function(state, props) {
